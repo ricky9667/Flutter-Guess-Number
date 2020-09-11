@@ -4,9 +4,8 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('About'),
-      ),
+      appBar: null,
+      backgroundColor: Colors.indigo[600],
       body: SafeArea(
         child: Container(
           child: Column(
@@ -14,21 +13,21 @@ class About extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 40.0),
+              Text(
+                'About',
+                style: TextStyle(
+                  fontSize: 48.0,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 20.0),
               CircleAvatar(
                 radius: 50.0,
                 backgroundImage: AssetImage('assets/about_avatar.png'),
               ),
-              SizedBox(height: 10.0),
-              Text(
-                '暱稱',
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 50.0),
               Card(
-                color: Colors.blue[900],
+                color: Colors.deepPurple[600],
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
                   leading: Icon(
@@ -81,7 +80,6 @@ class About extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 40.0),
-              Text('NTUT Programming Club'),
             ],
           ),
         ),
