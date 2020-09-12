@@ -38,7 +38,9 @@ class Home extends StatelessWidget {
                   icon: Icon(Icons.play_arrow),
                   label: Text('Play'),
                   elevation: 5.0,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/game');
+                  },
                 ),
               ),
               SizedBox(height: 60.0),
@@ -53,7 +55,9 @@ class Home extends StatelessWidget {
                   icon: Icon(Icons.info),
                   label: Text('About'),
                   elevation: 5.0,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/about');
+                  },
                 ),
               ),
             ],

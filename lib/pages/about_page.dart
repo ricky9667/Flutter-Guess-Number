@@ -81,9 +81,11 @@ class About extends StatelessWidget {
               ),
               SizedBox(height: 60.0),
               RaisedButton.icon(
-                onPressed: () {},
                 icon: Icon(Icons.arrow_back),
                 label: Text('離開'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ],
           ),

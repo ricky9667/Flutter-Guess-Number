@@ -110,14 +110,16 @@ class _GameState extends State<Game> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RaisedButton.icon(
-                    onPressed: () {},
                     icon: Icon(Icons.arrow_back),
                     label: Text('離開遊戲'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                   RaisedButton.icon(
-                    onPressed: () {},
                     icon: Icon(Icons.refresh),
                     label: Text('重新開始'),
+                    onPressed: () {},
                   ),
                 ],
               )
