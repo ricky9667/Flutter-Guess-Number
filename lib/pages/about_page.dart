@@ -5,7 +5,7 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      backgroundColor: Colors.indigo[600],
+      backgroundColor: Colors.lime[100],
       body: SafeArea(
         child: Container(
           child: Column(
@@ -17,17 +17,17 @@ class About extends StatelessWidget {
                 'About',
                 style: TextStyle(
                   fontSize: 48.0,
-                  color: Colors.white,
+                  color: Colors.indigo[800],
                 ),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 40.0),
               CircleAvatar(
                 radius: 50.0,
                 backgroundImage: AssetImage('assets/about_avatar.png'),
               ),
-              SizedBox(height: 50.0),
+              SizedBox(height: 40.0),
               Card(
-                color: Colors.deepPurple[600],
+                color: Colors.blue[800],
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
                   leading: Icon(
@@ -79,7 +79,12 @@ class About extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 60.0),
+              RaisedButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.arrow_back),
+                label: Text('離開'),
+              ),
             ],
           ),
         ),
