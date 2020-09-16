@@ -175,7 +175,10 @@ class _GameState extends State<Game> {
                     RaisedButton.icon(
                       icon: Icon(Icons.refresh),
                       label: Text('重新開始'),
-                      onPressed: () {},
+                      onPressed: () {
+                        startGame();
+                        setState(() {});
+                      },
                     ),
                   ],
                 )
