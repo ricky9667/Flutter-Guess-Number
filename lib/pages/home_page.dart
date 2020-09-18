@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
               SizedBox(height: 60.0),
               Image(
                 height: 160.0,
-                image: AssetImage('assets/flutter_logo.png'),
+                image: AssetImage('assets/guess_number_logo.png'),
               ),
               SizedBox(height: 40.0),
               Text(

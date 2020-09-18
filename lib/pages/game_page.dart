@@ -9,11 +9,11 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  List<int> numberList = [];
-  TextEditingController guessController = new TextEditingController();
-  bool isPlaying;
-  String message = '?';
-  int range = 100;
+  List<int> numberList = []; // list of numbers the player guess
+  TextEditingController guessController = new TextEditingController(); // controller for guessed number
+  bool isPlaying; // if the game is playing or stopped
+  String message = '?'; // message on the top board
+  int range = 100; // player guesses number range from 1~range
   int answer = 0;
 
   _GameState() {
@@ -21,26 +21,29 @@ class _GameState extends State<Game> {
   }
 
   void startGame() {
-    answer = getRandomNumber(range);
-    numberList.clear();
-    isPlaying = true;
+    // get random answer
+    var rand = new Random();
+    answer = rand.nextInt(range) + 1;
 
+    // reset previous game data
+    numberList.clear();
+    isPlaying = true; // change game state
     guessController.text = '';
     message = '?';
-
-    print('answer = $answer');
   }
 
   void endGame() {
-    isPlaying = false;
+    isPlaying = false; // change game state
     message = '答案正確';
   }
 
   void guessNumber() {
+    // get and process TextField data
     int _number = int.parse(guessController.text);
+    guessController.text = '';
     setState(() {});
 
-    guessController.text = '';
+    // identify guessed number and show message
     if (_number > range || _number <= 0) {
       message = '輸入不在範圍內';
       return;
@@ -53,11 +56,6 @@ class _GameState extends State<Game> {
       message = '數字太小了';
     else
       endGame();
-  }
-
-  int getRandomNumber(int range) {
-    var rand = new Random();
-    return rand.nextInt(range) + 1;
   }
 
   @override
@@ -223,10 +221,7 @@ class _GameState extends State<Game> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      onPressed: () {
-                        startGame();
-                        setState(() {});
-                      },
+                      onPressed: startGame,
                     ),
                   ],
                 )
