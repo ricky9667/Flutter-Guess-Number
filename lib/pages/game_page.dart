@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -117,6 +118,10 @@ class _GameState extends State<Game> {
                       flex: 1,
                       child: RaisedButton(
                         child: Text('猜'),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        color: Colors.lightGreen,
                         onPressed: () {
                           int _guess = int.parse(guessController.text);
                           print(_guess);
@@ -139,10 +144,14 @@ class _GameState extends State<Game> {
                     elevation: 5.0,
                     child: Container(
                       height: 240.0,
+                      padding: EdgeInsets.all(8.0),
                       child: ListView.builder(
                         itemCount: numberList.length,
                         itemBuilder: (context, index) {
                           return ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
                             leading: Text(
                               '${index+1}.',
                               style: TextStyle(
@@ -168,6 +177,10 @@ class _GameState extends State<Game> {
                     RaisedButton.icon(
                       icon: Icon(Icons.arrow_back),
                       label: Text('離開遊戲'),
+                      color: Colors.orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -175,6 +188,10 @@ class _GameState extends State<Game> {
                     RaisedButton.icon(
                       icon: Icon(Icons.refresh),
                       label: Text('重新開始'),
+                      color: Colors.teal,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       onPressed: () {
                         startGame();
                         setState(() {});

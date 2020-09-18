@@ -83,6 +83,10 @@ class About extends StatelessWidget {
               RaisedButton.icon(
                 icon: Icon(Icons.arrow_back),
                 label: Text('離開'),
+                color: Colors.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
