@@ -11,6 +11,7 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   List<int> numberList = [];
   TextEditingController guessController = new TextEditingController();
+  bool isPlaying;
   String message = '?';
   int range = 100;
   int answer = 0;
@@ -22,6 +23,7 @@ class _GameState extends State<Game> {
   void startGame() {
     answer = getRandomNumber(range);
     numberList.clear();
+    isPlaying = true;
 
     guessController.text = '';
     message = '?';
@@ -30,10 +32,14 @@ class _GameState extends State<Game> {
   }
 
   void endGame() {
+    isPlaying = false;
     message = '答案正確';
   }
 
-  void guessNumber(int _number) {
+  void guessNumber() {
+    int _number = int.parse(guessController.text);
+    setState(() {});
+
     guessController.text = '';
     if (_number > range || _number <= 0) {
       message = '輸入不在範圍內';
@@ -112,6 +118,7 @@ class _GameState extends State<Game> {
                       child: SizedBox(
                         width: 120.0,
                         child: TextField(
+                          enabled: isPlaying,
                           keyboardType: TextInputType.number,
                           controller: guessController,
                           decoration: InputDecoration(
@@ -137,12 +144,7 @@ class _GameState extends State<Game> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         color: Colors.lightGreen,
-                        onPressed: () {
-                          int _guess = int.parse(guessController.text);
-                          print(_guess);
-                          guessNumber(_guess);
-                          setState(() {});
-                        },
+                        onPressed: isPlaying ? guessNumber : null,
                       ),
                     ),
                   ],
