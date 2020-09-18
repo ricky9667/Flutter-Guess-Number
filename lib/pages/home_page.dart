@@ -23,24 +23,9 @@ class Home extends StatelessWidget {
                 'Flutter 猜數字',
                 style: TextStyle(
                   fontSize: 40.0,
+                  fontFamily: 'JustFont',
+                  fontWeight: FontWeight.bold,
                   color: Colors.indigo[800],
-                ),
-              ),
-              SizedBox(height: 60.0),
-              ButtonTheme(
-                minWidth: 300.0,
-                height: 60.0,
-                buttonColor: Colors.lightBlue,
-                child: RaisedButton.icon(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  icon: Icon(Icons.play_arrow),
-                  label: Text('Play'),
-                  elevation: 5.0,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/game');
-                  },
                 ),
               ),
               SizedBox(height: 60.0),
@@ -52,8 +37,37 @@ class Home extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
+                  icon: Icon(Icons.play_arrow),
+                  label: Text(
+                    'Play',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontFamily: 'JustFont',
+                    ),
+                  ),
+                  elevation: 5.0,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/game');
+                  },
+                ),
+              ),
+              SizedBox(height: 60.0),
+              ButtonTheme(
+                minWidth: 300.0,
+                height: 60.0,
+                buttonColor: Colors.amber,
+                child: RaisedButton.icon(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                   icon: Icon(Icons.info),
-                  label: Text('About'),
+                  label: Text(
+                    'About',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontFamily: 'JustFont',
+                    ),
+                  ),
                   elevation: 5.0,
                   onPressed: () {
                     Navigator.pushNamed(context, '/about');

@@ -16,8 +16,9 @@ class About extends StatelessWidget {
               Text(
                 'About',
                 style: TextStyle(
-                  fontSize: 48.0,
                   color: Colors.indigo[800],
+                  fontSize: 48.0,
+                  fontFamily: 'JustFont',
                 ),
               ),
               SizedBox(height: 40.0),
@@ -38,7 +39,8 @@ class About extends StatelessWidget {
                     '名字',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16.0,
+                      fontSize: 18.0,
+                      fontFamily: 'JustFont'
                     ),
                   ),
                 ),
@@ -56,7 +58,8 @@ class About extends StatelessWidget {
                     '系級',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16.0,
+                      fontSize: 18.0,
+                      fontFamily: 'JustFont',
                     ),
                   ),
                 ),
@@ -74,7 +77,8 @@ class About extends StatelessWidget {
                     '信箱',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16.0,
+                      fontSize: 18.0,
+                      fontFamily: 'JustFont',
                     ),
                   ),
                 ),
@@ -83,7 +87,7 @@ class About extends StatelessWidget {
               RaisedButton.icon(
                 icon: Icon(Icons.arrow_back),
                 label: Text('離開'),
-                color: Colors.orange,
+                color: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),

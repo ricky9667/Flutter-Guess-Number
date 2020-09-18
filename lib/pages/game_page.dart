@@ -41,9 +41,12 @@ class _GameState extends State<Game> {
     }
 
     numberList.add(_number);
-    if (_number > answer) message = '數字太大了';
-    else if (_number < answer) message = '數字太小了';
-    else endGame();
+    if (_number > answer)
+      message = '數字太大了';
+    else if (_number < answer)
+      message = '數字太小了';
+    else
+      endGame();
   }
 
   int getRandomNumber(int range) {
@@ -83,8 +86,9 @@ class _GameState extends State<Game> {
                       child: Text(
                         message,
                         style: TextStyle(
-                          fontSize: 28.0,
                           color: Colors.deepPurple,
+                          fontSize: 28.0,
+                          fontFamily: 'JustFont',
                         ),
                       ),
                     ),
@@ -92,32 +96,43 @@ class _GameState extends State<Game> {
                 ),
                 SizedBox(height: 40.0),
                 Text(
-                  '猜一個 1 ~ 100 的數字',
+                  '猜一個 1 ~ $range 的數字',
                   style: TextStyle(
                     color: Colors.indigo[700],
                     fontSize: 28.0,
+                    fontFamily: 'JustFont',
                   ),
                 ),
                 SizedBox(height: 20.0),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Spacer(),
                     Flexible(
                       flex: 3,
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller: guessController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.arrow_forward),
-                          hintText: '輸入數字',
+                      child: SizedBox(
+                        width: 120.0,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: guessController,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.arrow_forward),
+                            hintText: '輸入數字',
+                          ),
                         ),
                       ),
                     ),
-                    Spacer(),
                     Flexible(
-                      flex: 1,
-                      child: RaisedButton(
-                        child: Text('猜'),
+                      flex: 2,
+                      child: RaisedButton.icon(
+                        icon: Icon(Icons.touch_app),
+                        label: Text(
+                          '猜',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: 'JustFont',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -130,7 +145,6 @@ class _GameState extends State<Game> {
                         },
                       ),
                     ),
-                    Spacer(),
                   ],
                 ),
                 SizedBox(height: 20.0),
@@ -143,23 +157,24 @@ class _GameState extends State<Game> {
                     ),
                     elevation: 5.0,
                     child: Container(
-                      height: 240.0,
+                      height: 280.0,
                       padding: EdgeInsets.all(8.0),
                       child: ListView.builder(
                         itemCount: numberList.length,
                         itemBuilder: (context, index) {
+                          int reversedIndex = numberList.length - index - 1;
                           return ListTile(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             leading: Text(
-                              '${index+1}.',
+                              '${reversedIndex + 1}.',
                               style: TextStyle(
                                 fontSize: 18.0,
                               ),
                             ),
-                            title: Text(numberList[index].toString()),
-                            trailing: numberList[index] == answer
+                            title: Text(numberList[reversedIndex].toString()),
+                            trailing: numberList[reversedIndex] == answer
                                 ? Icon(Icons.check, color: Colors.green)
                                 : Icon(Icons.clear, color: Colors.red),
                             onTap: () {},
@@ -176,8 +191,15 @@ class _GameState extends State<Game> {
                   children: [
                     RaisedButton.icon(
                       icon: Icon(Icons.arrow_back),
-                      label: Text('離開遊戲'),
-                      color: Colors.orange,
+                      label: Text(
+                        '離開遊戲',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: 'JustFont',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      color: Colors.redAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -187,8 +209,15 @@ class _GameState extends State<Game> {
                     ),
                     RaisedButton.icon(
                       icon: Icon(Icons.refresh),
-                      label: Text('重新開始'),
-                      color: Colors.teal,
+                      label: Text(
+                        '重新開始',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: 'JustFont',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      color: Colors.lightBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
