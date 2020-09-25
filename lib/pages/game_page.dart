@@ -10,7 +10,8 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   List<int> numberList = []; // list of numbers the player guess
-  TextEditingController guessController = new TextEditingController(); // controller for guessed number
+  TextEditingController guessController =
+      new TextEditingController(); // controller for guessed number
   bool isPlaying; // if the game is playing or stopped
   String message = '?'; // message on the top board
   int range = 100; // player guesses number range from 1~range
@@ -22,14 +23,14 @@ class _GameState extends State<Game> {
 
   void startGame() {
     // get random answer
-    var rand = new Random();
+    var rand = Random();
     answer = rand.nextInt(range) + 1;
 
     // reset previous game data
     numberList.clear();
     isPlaying = true; // change game state
     guessController.text = '';
-    message = '?';
+    message = '';
   }
 
   void endGame() {
@@ -39,23 +40,83 @@ class _GameState extends State<Game> {
 
   void guessNumber() {
     // get and process TextField data
-    int _number = int.parse(guessController.text);
-    guessController.text = '';
-    setState(() {});
+    String data = guessController.text.trim();
+    int _number = int.parse(data);
 
-    // identify guessed number and show message
-    if (_number > range || _number <= 0) {
-      message = '輸入不在範圍內';
-      return;
-    }
+    setState(() {
+      guessController.text = '';
 
-    numberList.add(_number);
-    if (_number > answer)
-      message = '數字太大了';
-    else if (_number < answer)
-      message = '數字太小了';
-    else
-      endGame();
+      // identify guessed number and show message
+      if (_number > range || _number <= 0) {
+        message = '輸入不在範圍內';
+        return;
+      }
+
+      numberList.add(_number);
+      if (_number > answer)
+        message = '數字太大了';
+      else if (_number < answer)
+        message = '數字太小了';
+      else
+        endGame();
+    });
+  }
+
+  Future<void> _showRestartDialog() async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('重新開始'),
+            content: SingleChildScrollView(
+              child: Text('你確定要重新開始遊戲嗎？'),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('取消', style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text('重新開始'),
+                onPressed: () {
+                  startGame();
+                  setState(() {});
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  Future<void> _showLeaveDialog() async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('離開遊戲'),
+            content: SingleChildScrollView(
+              child: Text('你確定要離開遊戲畫面嗎？'),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('取消', style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text('離開'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -203,9 +264,7 @@ class _GameState extends State<Game> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: _showLeaveDialog,
                     ),
                     RaisedButton.icon(
                       icon: Icon(Icons.refresh),
@@ -221,7 +280,7 @@ class _GameState extends State<Game> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      onPressed: startGame,
+                      onPressed: _showRestartDialog,
                     ),
                   ],
                 )
