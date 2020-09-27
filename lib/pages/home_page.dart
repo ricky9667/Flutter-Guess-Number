@@ -10,15 +10,14 @@ class Home extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60.0),
               Image(
                 height: 160.0,
                 image: AssetImage('assets/guess_number_logo.png'),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 60.0),
               Text(
                 'Flutter 猜數字',
                 style: TextStyle(
@@ -51,7 +50,7 @@ class Home extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: 60.0),
+              SizedBox(height: 40.0),
               ButtonTheme(
                 minWidth: 300.0,
                 height: 60.0,
@@ -74,6 +73,7 @@ class Home extends StatelessWidget {
                   },
                 ),
               ),
+              SizedBox(height: 120.0),
             ],
           ),
         ),

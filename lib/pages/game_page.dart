@@ -14,10 +14,16 @@ class _GameState extends State<Game> {
       new TextEditingController(); // controller for guessed number
   bool isPlaying; // if the game is playing or stopped
   String message = '?'; // message on the top board
-  int range = 100; // player guesses number range from 1~range
+  int range = 100; // player guesses number range from 1 ~ range
   int answer = 0;
 
-  _GameState() {
+//  _GameState() {
+//    startGame();
+//  }
+
+  @override
+  void initState() {
+    super.initState();
     startGame();
   }
 
