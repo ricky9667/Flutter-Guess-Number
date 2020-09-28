@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Home extends StatelessWidget {
+  static final routeName = '/home';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

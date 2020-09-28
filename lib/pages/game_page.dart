@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Game extends StatefulWidget {
+  static final routeName = '/game';
+
   @override
   _GameState createState() => _GameState();
 }
@@ -16,10 +18,6 @@ class _GameState extends State<Game> {
   String message = '?'; // message on the top board
   int range = 100; // player guesses number range from 1 ~ range
   int answer = 0;
-
-//  _GameState() {
-//    startGame();
-//  }
 
   @override
   void initState() {
