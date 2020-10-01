@@ -19,17 +19,27 @@ class Home extends StatelessWidget {
                 height: 160.0,
                 image: AssetImage('assets/guess_number_logo.png'),
               ),
-              SizedBox(height: 60.0),
+              SizedBox(height: 48.0),
               Text(
-                'Flutter 猜數字',
+                '猜猜',
                 style: TextStyle(
-                  fontSize: 40.0,
+                  fontSize: 48.0,
                   fontFamily: 'JustFont',
                   fontWeight: FontWeight.bold,
-                  color: Colors.indigo[800],
+                  color: Colors.blue[600],
                 ),
               ),
-              SizedBox(height: 60.0),
+              SizedBox(height: 12.0),
+              Text(
+                'Guess Guess',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontFamily: 'JustFont',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[900],
+                ),
+              ),
+              SizedBox(height: 40.0),
               ButtonTheme(
                 minWidth: 300.0,
                 height: 60.0,
