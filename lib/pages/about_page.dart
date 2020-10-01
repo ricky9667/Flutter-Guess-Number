@@ -31,6 +31,9 @@ class About extends StatelessWidget {
               SizedBox(height: 40.0),
               Card(
                 color: Colors.blue[800],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
                   leading: Icon(
@@ -50,6 +53,9 @@ class About extends StatelessWidget {
               SizedBox(height: 20.0),
               Card(
                 color: Colors.brown[600],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
                   leading: Icon(
@@ -69,6 +75,9 @@ class About extends StatelessWidget {
               SizedBox(height: 20.0),
               Card(
                 color: Colors.green[700],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
                   leading: Icon(
