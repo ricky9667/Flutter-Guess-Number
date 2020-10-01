@@ -45,10 +45,22 @@ class _GameState extends State<Game> {
   void guessNumber() {
     // get and process TextField data
     String data = guessController.text.trim();
-    int _number = int.parse(data);
+    int _number;
+
+    if (!data.contains(new RegExp('^[0-9]*\$')))
+      _number = int.parse(data);
+    else
+      _number = -1;
 
     setState(() {
       guessController.text = '';
+
+      // check if data contains chars that is not a digit
+      if (!data.contains(new RegExp('^[0-9]*\$'))) {
+        message = '輸入格式不正確';
+        return;
+      }
+      _number = int.parse(data);
 
       // identify guessed number and show message
       if (_number > range || _number <= 0) {
@@ -64,6 +76,15 @@ class _GameState extends State<Game> {
       else
         endGame();
     });
+  }
+
+  bool onlyHasNumber(String s) {
+    // check if string only has numbers
+    if (s.contains(',')) return false;
+    if (s.contains('.')) return false;
+    if (s.contains(' ')) return false;
+    if (s.contains('-')) return false;
+    return true;
   }
 
   Future<void> _showRestartDialog() async {
