@@ -41,12 +41,11 @@ class About extends StatelessWidget {
                     color: Colors.white,
                   ),
                   title: Text(
-                    '名字',
+                    '北科程式設計研究社',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontFamily: 'JustFont'
-                    ),
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontFamily: 'JustFont'),
                   ),
                 ),
               ),
@@ -63,7 +62,7 @@ class About extends StatelessWidget {
                     color: Colors.white,
                   ),
                   title: Text(
-                    '系級',
+                    '國立臺北科技大學',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
@@ -85,7 +84,7 @@ class About extends StatelessWidget {
                     color: Colors.white,
                   ),
                   title: Text(
-                    '信箱',
+                    'support@ntut.club',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
@@ -95,16 +94,18 @@ class About extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 60.0),
-              RaisedButton.icon(
-                icon: Icon(Icons.arrow_back),
-                label: Text('離開'),
-                color: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.pop(context);
                 },
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                label: Text('離開', style: TextStyle(color: Colors.black)),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
               ),
             ],
           ),

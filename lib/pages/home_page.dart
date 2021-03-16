@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_guess_number/pages/about_page.dart';
+import 'package:flutter_guess_number/pages/game_page.dart';
 
 class Home extends StatelessWidget {
   static final routeName = '/home';
@@ -39,50 +41,54 @@ class Home extends StatelessWidget {
                   color: Colors.blue[900],
                 ),
               ),
-              SizedBox(height: 40.0),
-              ButtonTheme(
-                minWidth: 300.0,
+              SizedBox(height: 60.0),
+              SizedBox(
+                width: 300.0,
                 height: 60.0,
-                buttonColor: Colors.lightGreen,
-                child: RaisedButton.icon(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  icon: Icon(Icons.play_arrow),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Game.routeName);
+                  },
+                  icon: Icon(Icons.play_arrow, color: Colors.black),
                   label: Text(
                     'Play',
                     style: TextStyle(
+                      color: Colors.black,
                       fontSize: 24.0,
                       fontFamily: 'JustFont',
                     ),
                   ),
-                  elevation: 5.0,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/game');
-                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lightGreen,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 40.0),
-              ButtonTheme(
-                minWidth: 300.0,
+              SizedBox(
+                width: 300.0,
                 height: 60.0,
-                buttonColor: Colors.amber,
-                child: RaisedButton.icon(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  icon: Icon(Icons.info),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, About.routeName);
+                  },
+                  icon: Icon(Icons.info, color: Colors.black),
                   label: Text(
                     'About',
                     style: TextStyle(
+                      color: Colors.black,
                       fontSize: 24.0,
                       fontFamily: 'JustFont',
                     ),
                   ),
-                  elevation: 5.0,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/about');
-                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 120.0),
