@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:toast/toast.dart';
 
 class Game extends StatefulWidget {
   static final routeName = '/game';
@@ -36,96 +37,116 @@ class _GameState extends State<Game> {
     setState(() {
       answer = r.nextInt(100) + 1;
       numbers.clear();
+      _controller.text = '';
       isPlaying = true;
     });
     print('answer = $answer');
   }
 
+  void _showHintToast(int num) {
+    String message = '';
+    Color toastColor = Colors.black;
+
+    if (num == answer) {
+      message = '答案正確！';
+      toastColor = Colors.green;
+    } else if (num > answer) {
+      message = '數字太大了！';
+      toastColor = Colors.red;
+    } else if (num < answer) {
+      message = '數字太小了！';
+      toastColor = Colors.red;
+    } else {
+      message = '輸入格式有誤';
+      toastColor = Colors.deepPurple[300];
+    }
+    Toast.show(message, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM, backgroundColor: toastColor);
+  }
+
   void guessNumber() {
     String data = _controller.text.trim();
-    int _number;
-
     setState(() {
       _controller.text = '';
-
-      if (!data.contains(RegExp('^[0-9]*\$'))) {
-        return;
-      }
-      _number = int.parse(data);
-
-      if (_number > 100 || _number <= 0) {
-        return;
-      }
-
-      numbers.add(_number);
-      if (_number == answer) {
-        isPlaying = false;
+      if (data.contains(RegExp('^[0-9]*\$'))) {
+        int num = int.parse(data);
+        // print('num = $num');
+        if (num <= 100 && num >= 1) {
+          numbers.add(num);
+          if (num == answer) {
+            isPlaying = false;
+          }
+        }
+        _showHintToast(num);
+      } else {
+        _showHintToast(-1);
       }
     });
   }
 
   Future<void> _showRestartDialog() async {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('重新開始遊戲'),
-            content: Text('你確定要重新開始遊戲嗎？'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  '取消',
-                  style: TextStyle(color: Colors.grey),
-                ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('重新開始遊戲'),
+          content: Text('你確定要重新開始遊戲嗎？'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                '取消',
+                style: TextStyle(color: Colors.grey),
               ),
-              TextButton(
-                onPressed: () {
-                  initGame();
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  '確定',
-                  style: TextStyle(color: Colors.deepPurpleAccent),
-                ),
+            ),
+            TextButton(
+              onPressed: () {
+                initGame();
+                Navigator.pop(context);
+              },
+              child: Text(
+                '確定',
+                style: TextStyle(color: Colors.cyan),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _showLeaveDialog() async {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('離開遊戲'),
-            content: Text('你確定要離開遊戲嗎？'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  '取消',
-                  style: TextStyle(color: Colors.grey),
-                ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('離開遊戲'),
+          content: Text('你確定要離開遊戲嗎？'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                '取消',
+                style: TextStyle(color: Colors.grey),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  '確定',
-                  style: TextStyle(color: Colors.redAccent),
-                ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: Text(
+                '確定',
+                style: TextStyle(color: Colors.redAccent),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -176,9 +197,7 @@ class _GameState extends State<Game> {
                             ? Icon(Icons.check, color: Colors.green)
                             : Icon(Icons.clear, color: Colors.red),
                         onTap: () {
-                          if (numbers[index] > answer) print('數字太大');
-                          if (numbers[index] < answer) print('數字太小');
-                          if (numbers[index] == answer) print('正確');
+                          _showHintToast(numbers[index]);
                         },
                       );
                     },
@@ -195,7 +214,7 @@ class _GameState extends State<Game> {
                     prefixIcon: Icon(Icons.arrow_forward),
                     suffixIcon: IconButton(
                       icon: Icon(Icons.touch_app, color: Colors.blue),
-                      onPressed: guessNumber,
+                      onPressed: isPlaying ? guessNumber : null,
                     ),
                     hintText: '輸入數字',
                     border: OutlineInputBorder(
@@ -209,10 +228,10 @@ class _GameState extends State<Game> {
                 children: [
                   ElevatedButton.icon(
                     onPressed: _showLeaveDialog,
-                    icon: Icon(Icons.arrow_back),
-                    label: Text('離開遊戲'),
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
+                    label: Text('離開遊戲', style: TextStyle(color: Colors.black)),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.redAccent,
+                      primary: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -220,10 +239,10 @@ class _GameState extends State<Game> {
                   ),
                   ElevatedButton.icon(
                     onPressed: _showRestartDialog,
-                    icon: Icon(Icons.refresh),
-                    label: Text('重新開始'),
+                    icon: Icon(Icons.refresh, color: Colors.black),
+                    label: Text('重新開始', style: TextStyle(color: Colors.black)),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.deepPurpleAccent,
+                      primary: Colors.cyan,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
