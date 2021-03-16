@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+*.jks
 
 # IntelliJ related
 *.iml
@@ -39,3 +40,6 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# Keys
+key.properties

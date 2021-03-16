@@ -11,65 +11,56 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  List<int> numberList = []; // list of numbers the player guess
-  TextEditingController guessController =
-      new TextEditingController(); // controller for guessed number
-  bool isPlaying; // if the game is playing or stopped
-  String message = '?'; // message on the top board
-  int range = 100; // player guesses number range from 1 ~ range
-  int answer = 0;
+  TextEditingController _controller;
+  List<int> numbers;
+  Random r = Random();
+  bool isPlaying;
+  int answer;
+  int guess;
 
   @override
   void initState() {
     super.initState();
-    startGame();
+    _controller = TextEditingController();
+    numbers = [];
+    initGame();
   }
 
-  void startGame() {
-    // get random answer
-    var rand = Random();
-    answer = rand.nextInt(range) + 1;
-
-    // reset previous game data
-    numberList.clear();
-    isPlaying = true; // change game state
-    guessController.text = '';
-    message = '';
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  void endGame() {
-    isPlaying = false; // change game state
-    message = '答案正確';
+  void initGame() {
+    setState(() {
+      answer = r.nextInt(100) + 1;
+      numbers.clear();
+      isPlaying = true;
+    });
+    print('answer = $answer');
   }
 
   void guessNumber() {
-    // get and process TextField data
-    String data = guessController.text.trim();
+    String data = _controller.text.trim();
     int _number;
 
     setState(() {
-      guessController.text = '';
+      _controller.text = '';
 
-      // check if data contains chars that is not a digit
-      if (!data.contains(new RegExp('^[0-9]*\$'))) {
-        message = '輸入格式不正確';
+      if (!data.contains(RegExp('^[0-9]*\$'))) {
         return;
       }
       _number = int.parse(data);
 
-      // identify guessed number and show message
-      if (_number > range || _number <= 0) {
-        message = '輸入不在範圍內';
+      if (_number > 100 || _number <= 0) {
         return;
       }
 
-      numberList.add(_number);
-      if (_number > answer)
-        message = '數字太大了';
-      else if (_number < answer)
-        message = '數字太小了';
-      else
-        endGame();
+      numbers.add(_number);
+      if (_number == answer) {
+        isPlaying = false;
+      }
     });
   }
 
@@ -78,25 +69,28 @@ class _GameState extends State<Game> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('重新開始'),
-            content: SingleChildScrollView(
-              child: Text('你確定要重新開始遊戲嗎？'),
-            ),
+            title: Text('重新開始遊戲'),
+            content: Text('你確定要重新開始遊戲嗎？'),
             actions: [
-              FlatButton(
-                child: Text('取消', style: TextStyle(color: Colors.grey)),
+              TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
+                child: Text(
+                  '取消',
+                  style: TextStyle(color: Colors.grey),
+                ),
               ),
-              FlatButton(
-                child: Text('重新開始'),
+              TextButton(
                 onPressed: () {
-                  startGame();
-                  setState(() {});
+                  initGame();
                   Navigator.pop(context);
                 },
-              )
+                child: Text(
+                  '確定',
+                  style: TextStyle(color: Colors.deepPurpleAccent),
+                ),
+              ),
             ],
           );
         });
@@ -108,23 +102,27 @@ class _GameState extends State<Game> {
         builder: (context) {
           return AlertDialog(
             title: Text('離開遊戲'),
-            content: SingleChildScrollView(
-              child: Text('你確定要離開遊戲畫面嗎？'),
-            ),
+            content: Text('你確定要離開遊戲嗎？'),
             actions: [
-              FlatButton(
-                child: Text('取消', style: TextStyle(color: Colors.grey)),
+              TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
+                child: Text(
+                  '取消',
+                  style: TextStyle(color: Colors.grey),
+                ),
               ),
-              FlatButton(
-                child: Text('離開'),
+              TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
-              )
+                child: Text(
+                  '確定',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+              ),
             ],
           );
         });
@@ -135,171 +133,105 @@ class _GameState extends State<Game> {
     return Scaffold(
       appBar: null,
       backgroundColor: Colors.lime[100],
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 40.0),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlue[50],
-                      border: Border.all(
-                        color: Colors.deepPurple,
-                        style: BorderStyle.solid,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(30.0),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Container(
-                      width: 240.0,
-                      height: 80.0,
-                      margin: EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Text(
-                          message,
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 32.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                '猜 1 ~ 100 中的數字',
+                style: TextStyle(
+                  color: Colors.indigo,
+                  fontSize: 36.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'JustFont',
+                ),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.blue, width: 2.0),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                elevation: 5.0,
+                child: Container(
+                  height: 320.0,
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(2.0),
+                    itemCount: numbers.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        leading: Text(
+                          '${index + 1}',
                           style: TextStyle(
-                            color: Colors.deepPurple,
-                            fontSize: 28.0,
-                            fontFamily: 'JustFont',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
+                        title: Text('${numbers[index]}'),
+                        trailing: numbers[index] == answer
+                            ? Icon(Icons.check, color: Colors.green)
+                            : Icon(Icons.clear, color: Colors.red),
+                        onTap: () {
+                          if (numbers[index] > answer) print('數字太大');
+                          if (numbers[index] < answer) print('數字太小');
+                          if (numbers[index] == answer) print('正確');
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 320.0,
+                child: TextField(
+                  enabled: isPlaying,
+                  controller: _controller,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.arrow_forward),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.touch_app, color: Colors.blue),
+                      onPressed: guessNumber,
+                    ),
+                    hintText: '輸入數字',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(40.0)),
                     ),
                   ),
-                  SizedBox(height: 40.0),
-                  Text(
-                    '猜一個 1 ~ $range 的數字',
-                    style: TextStyle(
-                      color: Colors.indigo[700],
-                      fontSize: 28.0,
-                      fontFamily: 'JustFont',
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Flexible(
-                        flex: 3,
-                        child: SizedBox(
-                          width: 120.0,
-                          child: TextField(
-                            enabled: isPlaying,
-                            keyboardType: TextInputType.number,
-                            controller: guessController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.arrow_forward),
-                              hintText: '輸入數字',
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 2,
-                        child: RaisedButton.icon(
-                          icon: Icon(Icons.touch_app),
-                          label: Text(
-                            '猜',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'JustFont',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: Colors.lightGreen,
-                          onPressed: isPlaying ? guessNumber : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 40.0),
-                    child: Card(
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _showLeaveDialog,
+                    icon: Icon(Icons.arrow_back),
+                    label: Text('離開遊戲'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.redAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      elevation: 5.0,
-                      child: Container(
-                        height: 280.0,
-                        padding: EdgeInsets.all(8.0),
-                        child: ListView.builder(
-                          itemCount: numberList.length,
-                          itemBuilder: (context, index) {
-                            int reversedIndex = numberList.length - index - 1;
-                            return ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              leading: Text(
-                                '${reversedIndex + 1}.',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                              title: Text(numberList[reversedIndex].toString()),
-                              trailing: numberList[reversedIndex] == answer
-                                  ? Icon(Icons.check, color: Colors.green)
-                                  : Icon(Icons.clear, color: Colors.red),
-                              onTap: () {},
-                            );
-                          },
-                        ),
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: _showRestartDialog,
+                    icon: Icon(Icons.refresh),
+                    label: Text('重新開始'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurpleAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      RaisedButton.icon(
-                        icon: Icon(Icons.arrow_back),
-                        label: Text(
-                          '離開遊戲',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'JustFont',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        color: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        onPressed: _showLeaveDialog,
-                      ),
-                      RaisedButton.icon(
-                        icon: Icon(Icons.refresh),
-                        label: Text(
-                          '重新開始',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'JustFont',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        color: Colors.lightBlue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        onPressed: _showRestartDialog,
-                      ),
-                    ],
-                  )
                 ],
               ),
-            ),
+            ],
           ),
         ),
       ),
