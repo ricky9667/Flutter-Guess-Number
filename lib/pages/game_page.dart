@@ -164,7 +164,7 @@ class _GameState extends State<Game> {
                 '猜 1 ~ 100 中的數字',
                 style: TextStyle(
                   color: Colors.indigo,
-                  fontSize: 36.0,
+                  fontSize: 32.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'JustFont',
                 ),
@@ -176,7 +176,7 @@ class _GameState extends State<Game> {
                 ),
                 elevation: 5.0,
                 child: Container(
-                  height: 320.0,
+                  height: 240.0,
                   child: ListView.builder(
                     padding: EdgeInsets.all(2.0),
                     itemCount: numbers.length,
