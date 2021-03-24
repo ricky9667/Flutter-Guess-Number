@@ -154,103 +154,110 @@ class _GameState extends State<Game> {
     return Scaffold(
       appBar: null,
       backgroundColor: Colors.lime[100],
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 32.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                '猜 1 ~ 100 中的數字',
-                style: TextStyle(
-                  color: Colors.indigo,
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'JustFont',
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.blue, width: 2.0),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                elevation: 5.0,
-                child: Container(
-                  height: 240.0,
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(2.0),
-                    itemCount: numbers.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 32.0),
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 8.0),
+                    child: Text(
+                      '猜 1 ~ 100 中的數字',
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'JustFont',
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.blue, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    elevation: 8.0,
+                    child: Container(
+                      height: 240.0,
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(2.0),
+                        itemCount: numbers.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            leading: Text(
+                              '${index + 1}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            title: Text('${numbers[index]}'),
+                            trailing: numbers[index] == answer
+                                ? Icon(Icons.check, color: Colors.green)
+                                : Icon(Icons.clear, color: Colors.red),
+                            onTap: () {
+                              _showHintToast(numbers[index]);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 48.0, horizontal: 8.0),
+                    width: 320.0,
+                    child: TextField(
+                      enabled: isPlaying,
+                      controller: _controller,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.arrow_forward),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.touch_app, color: Colors.blue),
+                          onPressed: isPlaying ? guessNumber : null,
                         ),
-                        leading: Text(
-                          '${index + 1}',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                        hintText: '輸入數字',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: _showLeaveDialog,
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        label: Text('離開遊戲', style: TextStyle(color: Colors.black)),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                         ),
-                        title: Text('${numbers[index]}'),
-                        trailing: numbers[index] == answer
-                            ? Icon(Icons.check, color: Colors.green)
-                            : Icon(Icons.clear, color: Colors.red),
-                        onTap: () {
-                          _showHintToast(numbers[index]);
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 320.0,
-                child: TextField(
-                  enabled: isPlaying,
-                  controller: _controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.arrow_forward),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.touch_app, color: Colors.blue),
-                      onPressed: isPlaying ? guessNumber : null,
-                    ),
-                    hintText: '輸入數字',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: _showLeaveDialog,
-                    icon: Icon(Icons.arrow_back, color: Colors.black),
-                    label: Text('離開遊戲', style: TextStyle(color: Colors.black)),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: _showRestartDialog,
-                    icon: Icon(Icons.refresh, color: Colors.black),
-                    label: Text('重新開始', style: TextStyle(color: Colors.black)),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.cyan,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                      ElevatedButton.icon(
+                        onPressed: _showRestartDialog,
+                        icon: Icon(Icons.refresh, color: Colors.black),
+                        label: Text('重新開始', style: TextStyle(color: Colors.black)),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.cyan,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
