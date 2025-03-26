@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_guess_number/pages/about_page.dart';
 import 'package:flutter_guess_number/pages/game_page.dart';
 
 class Home extends StatelessWidget {
   static final routeName = '/home';
+
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.lightGreen,
+                      backgroundColor: Colors.lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
@@ -84,7 +85,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.amber,
+                      backgroundColor: Colors.amber,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
